@@ -12,4 +12,3 @@ opencv-python
 einops
 matplotlib
 timm
-这是一次测试
