@@ -15,6 +15,7 @@ from idisc.utils import (DICT_METRICS_DEPTH, DICT_METRICS_NORMALS,
 import torchvision.transforms as trasforms
 import idisc.utils.visulization as visulization
 from matplotlib import pyplot as plt
+import torchvision.transforms.functional as TF
 
 
 def main(config: Dict[str, Any], args: argparse.Namespace):
@@ -28,21 +29,30 @@ def main(config: Dict[str, Any], args: argparse.Namespace):
     context = torch.autocast(device_type="cuda", dtype=torch.float16, enabled=f16)
 
     img = Image.open(
-        "I:\\Research-on-MDE-in-mining-scenarios\\kitti\\raw\\2011_09_29\\2011_09_29_drive_0004_sync\\image_02\\data\\0000000277.png")
-    transform = trasforms.Compose([trasforms.ToTensor()])
-    img = transform(img).unsqueeze(0)
+        "datasets\\AutoMine-Depth\\OCT-00\\scene_01\\raw\\1661922775.200000.png")
+    # img = img.crop((200, 100, 1100, 350))
+    img = TF.normalize(TF.to_tensor(img),  **{"mean": [0.485, 0.456, 0.406], "std": [0.229, 0.224, 0.225]})
+    img = img.unsqueeze(0)
     model.eval()
-    with torch.no_grad():
-        preds, losses, _ = model(img.to(device), None, None)
-    img = visulization.colorize(preds.cpu().numpy())
-    img = Image.fromarray(img.astype('uint8'))
-    img.save("output.png")
+    with torch.inference_mode():
+        preds, *_ = model(img.to(device))
+    preds = preds.squeeze().cpu().numpy()
+    img = visulization.colorize(preds, vmin=0.01, vmax=80, cmap="magma_r")
+    img = Image.fromarray(img)
 
+    min_val = 0.01
+    max_val = 80
+    scaled_array = (preds - min_val) / (max_val - min_val)
+    preds = scaled_array * 255
+    preds = Image.fromarray(preds.astype("uint8"), mode='L')
+    preds.save("gray.png")
+    img.save("RGB.png")
+    print("Done")
 
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description="Testing", conflict_handler="resolve")
-    parser.add_argument("--config-file", type=str, default="configs/kitti/kitti_r101.json")
+    parser.add_argument("--config-file", type=str, default="configs/automine/automine_r101.json")
     parser.add_argument("--model-file", type=str, default="pretrained/kitti_resnet101.pt")
     parser.add_argument("--base-path", default=".")
 

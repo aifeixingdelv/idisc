@@ -82,21 +82,21 @@ class KITTIDataset(BaseDataset):
 
     def load_dataset(self):
         self.invalid_depth_num = 0
-        with open(os.path.join(self.base_path, self.split_file)) as f:
+        with open(os.path.join("I://Research-on-MDE-in-mining-scenarios//kitti//splits//eigen", self.split_file)) as f:
             for line in f:
                 img_info = dict()
                 if not self.benchmark:  # benchmark test
                     depth_map = line.strip().split(" ")[1]
                     if depth_map == "None" or not os.path.exists(
-                        os.path.join(self.base_path, depth_map)
+                        os.path.join("I://Research-on-MDE-in-mining-scenarios//kitti//depth", depth_map)
                     ):
                         self.invalid_depth_num += 1
                         continue
                     img_info["annotation_filename_depth"] = os.path.join(
-                        self.base_path, depth_map
+                        "I://Research-on-MDE-in-mining-scenarios//kitti//depth", depth_map
                     )
                 img_name = line.strip().split(" ")[0]
-                img_info["image_filename"] = os.path.join(self.base_path, img_name)
+                img_info["image_filename"] = os.path.join("I://Research-on-MDE-in-mining-scenarios//kitti//raw", img_name)
                 img_info["camera_intrinsics"] = self.CAM_INTRINSIC[
                     img_name.split("/")[0]
                 ][:, :3]

@@ -1,4 +1,5 @@
 from .argoverse import ArgoverseDataset
+from .automine import AutoMineDataset
 from .dataset import BaseDataset
 from .ddad import DDADDataset
 from .diode import DiodeDataset
@@ -16,4 +17,5 @@ __all__ = [
     "DDADDataset",
     "DiodeDataset",
     "SUNRGBDDataset",
+    "AutoMineDataset"
 ]

@@ -35,7 +35,7 @@ def image_grid(imgs: List[np.ndarray], rows: int, cols: int) -> np.ndarray:
 
     for i, img in enumerate(imgs):
         grid.paste(
-            Image.fromarray(img.astype(np.uint8)).resize((w, h), Image.ANTIALIAS),
+            Image.fromarray(img.astype(np.uint8)).resize((w, h), Image.LANCZOS),
             box=(i % cols * w, i // cols * h),
         )
 

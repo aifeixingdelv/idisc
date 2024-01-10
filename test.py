@@ -51,7 +51,7 @@ def main(config: Dict[str, Any], args: argparse.Namespace):
         metrics_tracker = RunningMetric(list(DICT_METRICS_DEPTH.keys()))
 
     print("Start validation...")
-    with torch.no_gra   d():
+    with torch.no_grad():
         validate.best_loss = np.inf
         validate(
             model,
