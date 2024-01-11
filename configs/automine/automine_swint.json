@@ -69,8 +69,8 @@
     },
     "pixel_encoder": {
       "img_size": [
-        512,
-        384
+        1024,
+        768
       ],
       "name": "swin_tiny",
       "lr_dedicated": 2e-05

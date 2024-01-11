@@ -69,8 +69,8 @@
     },
     "pixel_encoder": {
       "img_size": [
-        512,
-        384
+        1024,
+        768
       ],
       "name": "efficientnet_b5",
       "lr_dedicated": 5e-05
