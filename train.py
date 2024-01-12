@@ -162,7 +162,8 @@ def main_worker(config: Dict[str, Any], args: argparse.Namespace):
     while True:
         for batch in train_loader:
             if (step + 1) % nsteps_accumulation_gradient:
-                with context as fp, model.no_sync() as no_sync:
+                # with context as fp, model.no_sync() as no_sync:
+                with context as fp:
                     batch = {k: v.to(model.device) for k, v in batch.items()}
                     preds, losses, _ = model(**batch)
                     loss = (
