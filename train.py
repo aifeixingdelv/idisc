@@ -269,6 +269,7 @@ if __name__ == "__main__":
     parser.add_argument("--master-port", type=str, required=False)
     parser.add_argument("--distributed", action="store_true")
     parser.add_argument("--base-path", default=os.environ.get("TMPDIR", ""))
+    parser.add_argument("--model-file", type=str, required=True)
 
     args = parser.parse_args()
     with open(args.config_file, "r") as f:
