@@ -110,7 +110,9 @@ def main_worker(config: Dict[str, Any], args: argparse.Namespace):
     ########### MODEL ############
     ##############################
     # Build model
-    model = IDisc.build(config).to(device)
+    model = IDisc.build(config)
+    model.load_pretrained(args.model_file)
+    print(f"Model loaded from {args.model_file}")
     if args.distributed:
         model = nn.SyncBatchNorm.convert_sync_batchnorm(model)
         model = DistributedDataParallel(
