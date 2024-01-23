@@ -3,8 +3,8 @@
     "seed": 13
   },
   "training": {
-    "n_iters": 40000,
-    "batch_size": 12,
+    "n_iters": 10000,
+    "batch_size": 4,
     "validation_interval": 200,
     "nsteps_accumulation_gradient": 2,
     "lr": 0.0002,
@@ -69,8 +69,8 @@
     },
     "pixel_encoder": {
       "img_size": [
-        1024,
-        768
+        819,
+        150
       ],
       "name": "resnet101",
       "lr_dedicated": 5e-05

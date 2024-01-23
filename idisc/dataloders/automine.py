@@ -38,8 +38,8 @@ class AutoMineDataset(BaseDataset):
         self.depth_scale = depth_scale
         self.crop = crop
         self.is_dense = is_dense
-        self.height = 512
-        self.width = 1024
+        self.height = 150
+        self.width = 819
 
         # load annotations
         self.load_dataset()
@@ -52,7 +52,7 @@ class AutoMineDataset(BaseDataset):
             for line in f:
                 img_info = dict()
                 if not self.benchmark:  # benchmark test
-                    depth_map = line.strip().split(" ")[1]
+                    depth_map = line.strip().split(" ")[1].replace("\\", "/")
                     if depth_map == "None" or not os.path.exists(
                             os.path.join(self.base_path, depth_map)
                     ):
@@ -61,7 +61,7 @@ class AutoMineDataset(BaseDataset):
                     img_info["annotation_filename_depth"] = os.path.join(
                         self.base_path, depth_map
                     )
-                img_name = line.strip().split(" ")[0]
+                img_name = line.strip().split(" ")[0].replace("\\", "/")
                 img_info["image_filename"] = os.path.join(self.base_path, img_name)
                 img_info["camera_intrinsics"] = self.CAM_INTRINSIC["AutoMineDepth"][:, :3]
                 self.dataset.append(img_info)
