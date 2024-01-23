@@ -87,9 +87,9 @@ def validate(
             gt, mask = batch["gt"].to(device), batch["mask"].to(device)
             preds, losses, _ = model(batch["image"].to(device), gt, mask)
 
-        # depths = [colorize(p.squeeze().cpu().numpy(), 0, 80) for p in preds]
-        # for index, depth in enumerate(depths):
-        #     Image.fromarray(depth).save(f"outputs/batch{i}_{index}.png")
+        depths = [colorize(p.squeeze().cpu().numpy(), 0, 80) for p in preds]
+        for index, depth in enumerate(depths):
+            Image.fromarray(depth).save(f"outputs/batch{i}_{index}.png")
         losses = {k: v for l in losses.values() for k, v in l.items()}
         for loss_name, loss_val in losses.items():
             ds_losses[loss_name] = (

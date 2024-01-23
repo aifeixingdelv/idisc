@@ -50,7 +50,7 @@ def main_worker(config: Dict[str, Any], args: argparse.Namespace):
         if is_main_process():
             print("BatchSize per GPU: ", config["training"]["batch_size"])
         dist.barrier()
-
+    print(device)
     ##############################
     ########## DATASET ###########
     ##############################
@@ -112,6 +112,7 @@ def main_worker(config: Dict[str, Any], args: argparse.Namespace):
     # Build model
     model = IDisc.build(config)
     model.load_pretrained(args.model_file)
+    model.to(device)
     print(f"Model loaded from {args.model_file}")
     if args.distributed:
         model = nn.SyncBatchNorm.convert_sync_batchnorm(model)
